@@ -1,7 +1,11 @@
 # Bippy
-Golang implementation of the BIP32/BIP39/BIP43/BIP44/SLIP44/BIP49/BIP84/BIP173 for creating keys, mnemonic seeds and Hierarchical Deterministic (HD) addresses. 
+Golang implementation of the BIP32/BIP39/BIP43/BIP44/SLIP44/BIP49/BIP84/BIP173 for creating and recoverying keys, mnemonic seeds and Hierarchical Deterministic (HD) addresses. Includes support for BTC and ETH.
 
 Lovingly ripped off from @modood via https://github.com/modood/btckeygen.
+
+# Ledger Recovery
+
+Bippy has been verified to recover keys from Ledger devices with only the passphrase. Despite the marketing, you do not have to purchase a new Ledger device to recover your keys.
 
 # Don't Trust. Verify.
 
@@ -11,17 +15,46 @@ You can do so by using this tool: https://iancoleman.io/bip39/
 
 or the many existing implementations described in the bip39 document: https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki#reference-implementation
 
+I would also recommend running this command from a cold system, disconnected from the Internet, as it explicitely prints private key information in the terminal.
+
+# Releases
+
+Prebuilt binaries can be found in the releases section: https://github.com/jlogelin/bippy/releases.
+
+  * [bippy for mac](https://github.com/jlogelin/bippy/releases/download/v0.01/bippy-0.0.1-darwin-amd64)
+  * [bippy for windows](https://github.com/jlogelin/bippy/releases/download/v0.01/bippy-0.0.1-windows-amd64.exe)
+  * [bippy for linux](https://github.com/jlogelin/bippy/releases/download/v0.01/bippy-0.0.1-linux-amd64)
+
+Once you download the binary, open up a terminal and start using it.
+
+# Help
+```
+% bippy -help
+
+Usage of ./bippy:
+  -bip39
+    	mnemonic code for generating deterministic keys
+  -n int
+    	set number of keys to generate (default 10)
+  -pass string
+    	protect bip39 mnemonic with a passphrase
+  -phrase string
+    	set the key phase mnemonic
+  -size int
+    	Key phase size, valid values are 12 or 24 (default 24)
+```
+
 # Examples
 
-## Get Keys from Passphrase
+## Display Account Info from Passphrase
 
-Display public Ethereum and Bitcoin keys from a 12 or 24 word passphrase.
+Display public Ethereum and Bitcoin keys from a 12 or 24 word passphrase. This can be used with compliant software and hardware wallets, including Ledger, to recover keys.
 
 Example:
 
-`bippy -bip39 -pass=123456 -n 10 -phrase "echo cool vapor illness drastic citizen damp nurse labor rocket tool verb tower position duck endless tourist struggle ten firm scissors pilot own crouch"`
-
 ```
+% bippy -bip39 -pass=123456 -n 10 -phrase "echo cool vapor illness drastic citizen damp nurse labor rocket tool verb tower position duck endless tourist struggle ten firm scissors pilot own crouch"
+
 BIP39 Mnemonic:    echo cool vapor illness drastic citizen damp nurse labor rocket tool verb tower position duck endless tourist struggle ten firm scissors pilot own crouch
 BIP39 Passphrase:  123456
 BIP39 Seed:        ab4895a008f0747ebc15719f7b165f288b985f62860a9df0add500f70947226d0198429ccb3dda26f9660d7a8a787582c6370fbd0f8bc025fb6f762661529ab1
@@ -81,11 +114,11 @@ m/84'/0'/0'/0/9    bc1qxpr7llpvn2fuu53ttderqvgggt0y2d6m8fq3eu L3UMXqdnwNiPjvMb41
 ```
 
 
-## generate bip39 mnemonic with passphrase:
-
-`bippy -bip39 -pass=123456 -n 10`
+## Generate bip39 Mnemonic with Passphrase:
 
 ```
+% bippy -bip39 -pass=123456 -n 10
+
 BIP39 Mnemonic:    noodle cigar stamp awkward income worry must life wage canoe ancient harsh key indicate loud service ripple smile pledge flame rather exit theory share
 BIP39 Passphrase:  123456
 BIP39 Seed:        03c889b029068b4fcb1a122e242948f5b151533c19b7f550364c9745d446d66b2a470554ebc3661d29b840ffe1ea9a5c55f7c8a26caee47ff38c0fa3d59f93f2
