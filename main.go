@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"flag"
 	"fmt"
 	"log"
@@ -115,10 +114,23 @@ func NewKeyManager(bitSize int, passphrase string) (*KeyManager, error) {
 // bitSize has to be a multiple 32 and be within the inclusive range of {128, 256}
 // 128: 12 phrases
 // 256: 24 phrases
-func NewKeyManagerWithMnemonic(bitSize int, passphrase string, mnemonic string) (*KeyManager, error) {
-	valid := bip39.IsMnemonicValid(mnemonic)
-	if valid == false {
-		err := errors.New("mnemonic not valid")
+func NewKeyManagerWithMnemonic(bitSize int, passphrase string, keyphrase string) (*KeyManager, error) {
+
+	entropy, err := bip39.EntropyFromMnemonic(keyphrase)
+	if err != nil {
+		return nil, err
+	}
+
+	/*
+		valid := bip39.IsMnemonicValid(keyphrase)
+		if valid == false {
+			err := errors.New("mnemonic not valid")
+			return nil, err
+		}
+	*/
+
+	mnemonic, err := bip39.NewMnemonic(entropy)
+	if err != nil {
 		return nil, err
 	}
 
@@ -271,6 +283,47 @@ func (km *KeyManager) GetChangeKey(purpose, coinType, account, change uint32) (*
 	return key, nil
 }
 
+func (km *KeyManager) GetShortAccountKey(purpose uint32, coinType uint32, account uint32) (*bip32.Key, error) {
+	path := fmt.Sprintf(`m/%d'/%d'/%d`, purpose-Apostrophe, coinType-Apostrophe, account)
+
+	key, ok := km.getKey(path)
+	if ok {
+		return key, nil
+	}
+
+	key, err := km.GetAccountKey(purpose, coinType, account)
+	if err != nil {
+		return nil, err
+	}
+
+	km.setKey(path, key)
+
+	return key, nil
+}
+
+func (km *KeyManager) GetShortKey(purpose uint32, coinType uint32, account uint32, index uint32) (*Key, error) {
+	path := fmt.Sprintf(`m/%d'/%d'/%d'/%d`, purpose-Apostrophe, coinType-Apostrophe, account, index)
+
+	key, ok := km.getKey(path)
+	if ok {
+		return &Key{path: path, bip32Key: key}, nil
+	}
+
+	parent, err := km.GetShortAccountKey(purpose, coinType, account)
+	if err != nil {
+		return nil, err
+	}
+
+	key, err = parent.NewChildKey(index)
+	if err != nil {
+		return nil, err
+	}
+
+	km.setKey(path, key)
+
+	return &Key{path: path, bip32Key: key}, nil
+}
+
 func (km *KeyManager) GetKey(purpose, coinType, account, change, index uint32) (*Key, error) {
 	path := fmt.Sprintf(`m/%d'/%d'/%d'/%d/%d`, purpose-Apostrophe, coinType-Apostrophe, account, change, index)
 
@@ -402,6 +455,19 @@ func main() {
 	fmt.Printf("%-18s %s\n", "BIP39 Passphrase:", passphrase)
 	fmt.Printf("%-18s %x\n", "BIP39 Seed:", km.GetSeed())
 	fmt.Printf("%-18s %s\n", "BIP32 Root Key:", masterKey.B58Serialize())
+
+	fmt.Printf("\n** Ledger Derivation **")
+	fmt.Printf("\n%-18s %-42s %-44s\n", "Path(BIP44)", "Ethereum Address", "Private Key")
+	fmt.Println(strings.Repeat("-", 126))
+	for i := 0; i < *number; i++ {
+		key, err := km.GetShortKey(PurposeBIP44, CoinTypeETH, 0, uint32(i))
+		if err != nil {
+			log.Fatal(err)
+		}
+		address, _, privateKey := key.EncodeEth()
+
+		fmt.Printf("%-18s %-34s %s\n", key.GetPath(), address, privateKey)
+	}
 
 	fmt.Printf("\n%-18s %-42s %-44s\n", "Path(BIP44)", "Ethereum Address", "Private Key")
 	fmt.Println(strings.Repeat("-", 126))
