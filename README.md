@@ -3,6 +3,10 @@ Golang implementation of the BIP32/BIP39/BIP43/BIP44/SLIP44/BIP49/BIP84/BIP173 f
 
 Lovingly ripped off from @modood via https://github.com/modood/btckeygen.
 
+# Ledger Recovery
+
+Bippy has been verified to recover keys from Ledger devices with only the passphrase. Despite the marketing, you do not have to purchase a new Ledger device to recover your keys.
+
 # Don't Trust. Verify.
 
 I recommend every user of this library audit and verify any underlying code for its validity and suitability.
