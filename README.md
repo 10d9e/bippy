@@ -47,9 +47,9 @@ Usage of ./bippy:
 
 # Examples
 
-## Display Account Info from Passphrase
+## Recover Account Keys from Passphrase
 
-Display public Ethereum and Bitcoin keys from a 12 or 24 word passphrase. This can be used with compliant software and hardware wallets, including Ledger, to recover keys.
+Display Ethereum and Bitcoin keys from a 12 or 24 word passphrase. This can be used with compliant software and hardware wallets, including Ledger, to recover keys.
 
 Example Ledger recovery; must include `-s` flag:
 
