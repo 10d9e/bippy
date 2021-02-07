@@ -5,7 +5,7 @@ Lovingly ripped off from @modood via https://github.com/modood/btckeygen.
 
 # Ledger Recovery
 
-Bippy has been verified to recover keys from Ledger devices with only the passphrase. Despite the marketing, you do not have to purchase a new Ledger device to recover your keys.
+Bippy has been verified to recover keys from Ledger devices with only the passphrase. Despite the marketing, you do not have to purchase a new Ledger device to recover your keys. See example [below](https://github.com/jlogelin/bippy#display-account-info-from-passphrase).
 
 # Don't Trust. Verify.
 
