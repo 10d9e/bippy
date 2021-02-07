@@ -21,9 +21,9 @@ I would also recommend running this command from a cold system, disconnected fro
 
 Prebuilt binaries can be found in the releases section: https://github.com/jlogelin/bippy/releases.
 
-  * [bippy for mac](https://github.com/jlogelin/bippy/releases/download/v0.01/bippy-0.0.1-darwin-amd64)
-  * [bippy for windows](https://github.com/jlogelin/bippy/releases/download/v0.01/bippy-0.0.1-windows-amd64.exe)
-  * [bippy for linux](https://github.com/jlogelin/bippy/releases/download/v0.01/bippy-0.0.1-linux-amd64)
+  * [bippy for mac](https://github.com/jlogelin/bippy/releases/download/v0.0.2/bippy-0.0.2-darwin-amd64)
+  * [bippy for windows](https://github.com/jlogelin/bippy/releases/download/v0.0.2/bippy-0.0.2-windows-amd64.exe)
+  * [bippy for linux](https://github.com/jlogelin/bippy/releases/download/v0.0.2/bippy-0.0.2-linux-amd64)
 
 Once you download the binary, open up a terminal and start using it.
 
@@ -53,7 +53,7 @@ Display public Ethereum and Bitcoin keys from a 12 or 24 word passphrase. This c
 Example:
 
 ```
-% bippy -bip39 -pass=123456 -n 10 -phrase "echo cool vapor illness drastic citizen damp nurse labor rocket tool verb tower position duck endless tourist struggle ten firm scissors pilot own crouch"
+% bippy -bip39 -n 10 -phrase "echo cool vapor illness drastic citizen damp nurse labor rocket tool verb tower position duck endless tourist struggle ten firm scissors pilot own crouch"
 
 BIP39 Mnemonic:    echo cool vapor illness drastic citizen damp nurse labor rocket tool verb tower position duck endless tourist struggle ten firm scissors pilot own crouch
 BIP39 Passphrase:  123456
