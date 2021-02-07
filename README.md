@@ -21,9 +21,9 @@ I would also recommend running this command from a cold system, disconnected fro
 
 Prebuilt binaries can be found in the releases section: https://github.com/jlogelin/bippy/releases.
 
-  * [bippy for mac](https://github.com/jlogelin/bippy/releases/download/v0.0.2/bippy-0.0.2-darwin-amd64)
-  * [bippy for windows](https://github.com/jlogelin/bippy/releases/download/v0.0.2/bippy-0.0.2-windows-amd64.exe)
-  * [bippy for linux](https://github.com/jlogelin/bippy/releases/download/v0.0.2/bippy-0.0.2-linux-amd64)
+  * [bippy for mac](https://github.com/jlogelin/bippy/releases/download/v0.0.3/bippy-0.0.3-darwin-amd64)
+  * [bippy for windows](https://github.com/jlogelin/bippy/releases/download/v0.0.3/bippy-0.0.3-windows-amd64.exe)
+  * [bippy for linux](https://github.com/jlogelin/bippy/releases/download/v0.0.3/bippy-0.0.3-linux-amd64)
 
 Once you download the binary, open up a terminal and start using it.
 
@@ -40,6 +40,7 @@ Usage of ./bippy:
     	protect bip39 mnemonic with a passphrase
   -phrase string
     	set the key phase mnemonic
+  -s	Use short derivation paths, as used with Ledger devices (ie. m/44'/60'/0'/0)
   -size int
     	Key phase size, valid values are 12 or 24 (default 24)
 ```
@@ -50,17 +51,16 @@ Usage of ./bippy:
 
 Display public Ethereum and Bitcoin keys from a 12 or 24 word passphrase. This can be used with compliant software and hardware wallets, including Ledger, to recover keys.
 
-Example:
+Example Ledger recovery; must include `-s` flag:
 
 ```
-% bippy -bip39 -n 10 -phrase "echo cool vapor illness drastic citizen damp nurse labor rocket tool verb tower position duck endless tourist struggle ten firm scissors pilot own crouch"
+% bippy -bip39 -s -n 10 -phrase "echo cool vapor illness drastic citizen damp nurse labor rocket tool verb tower position duck endless tourist struggle ten firm scissors pilot own crouch"
 
 BIP39 Mnemonic:    echo cool vapor illness drastic citizen damp nurse labor rocket tool verb tower position duck endless tourist struggle ten firm scissors pilot own crouch
 BIP39 Passphrase:  <none>
 BIP39 Seed:        ea1cdd5aa09e7760ceab85e1bb24c61769785c5dc09e44322d0cde3b54056e9326a697a06ca33c28b5dd7ab7d2f041aeeadf7a5d78e706e455be5dae93a92fec
 BIP32 Root Key:    xprv9s21ZrQH143K3ByxkcZXiiG7aejrq3ioFQ6yNC4bDf7BJk2aHRpocGtk4Y9XV2M7wFLdUBs26PnW83tRu7tzBa7EKeSZG1iLW12hfN8s52v
 
-** Ledger Derivation **
 Path(BIP44)        Ethereum Address                           Private Key                                 
 ------------------------------------------------------------------------------------------------------------------------------
 m/44'/60'/0'/0     0xE720c0704b808b320F76A943a649d094Da2f0251 a592f34fccfa234d14ba2b550b1f30ed2df735802fe4c98ac60877c57808c404
