@@ -1,7 +1,7 @@
 # Bippy
 Golang implementation of the BIP32/BIP39/BIP43/BIP44/SLIP44/BIP49/BIP84/BIP173 for creating and recoverying keys, mnemonic seeds and Hierarchical Deterministic (HD) addresses. Includes support for BTC and ETH.
 
-Lovingly ripped off from (@modood)[https://github.com/modood] via https://github.com/modood/btckeygen.
+Lovingly ripped off from [@modood](https://github.com/modood) via https://github.com/modood/btckeygen.
 
 # Ledger Recovery
 
