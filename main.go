@@ -405,6 +405,7 @@ func main() {
 	number := flag.Int("n", 10, "set number of keys to generate")
 	mnemonic := flag.String("phrase", "", "set the key phase mnemonic")
 	size := flag.Int("size", 24, "Key phase size, valid values are 12 or 24")
+	short := flag.Bool("s", false, "Use short derivation paths, as used with Ledger devices (ie. m/44'/60'/0'/0)")
 
 	flag.Parse()
 
@@ -456,23 +457,15 @@ func main() {
 	fmt.Printf("%-18s %x\n", "BIP39 Seed:", km.GetSeed())
 	fmt.Printf("%-18s %s\n", "BIP32 Root Key:", masterKey.B58Serialize())
 
-	fmt.Printf("\n** Ledger Derivation **")
 	fmt.Printf("\n%-18s %-42s %-44s\n", "Path(BIP44)", "Ethereum Address", "Private Key")
 	fmt.Println(strings.Repeat("-", 126))
 	for i := 0; i < *number; i++ {
-		key, err := km.GetShortKey(PurposeBIP44, CoinTypeETH, 0, uint32(i))
-		if err != nil {
-			log.Fatal(err)
+		var key *Key
+		if *short {
+			key, err = km.GetShortKey(PurposeBIP44, CoinTypeETH, 0, uint32(i))
+		} else {
+			key, err = km.GetKey(PurposeBIP44, CoinTypeETH, 0, 0, uint32(i))
 		}
-		address, _, privateKey := key.EncodeEth()
-
-		fmt.Printf("%-18s %-34s %s\n", key.GetPath(), address, privateKey)
-	}
-
-	fmt.Printf("\n%-18s %-42s %-44s\n", "Path(BIP44)", "Ethereum Address", "Private Key")
-	fmt.Println(strings.Repeat("-", 126))
-	for i := 0; i < *number; i++ {
-		key, err := km.GetKey(PurposeBIP44, CoinTypeETH, 0, 0, uint32(i))
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -484,7 +477,12 @@ func main() {
 	fmt.Printf("\n%s %22s %44s %38s\n", "Path(BIP44)", "Bitcoin Address", "WIF(Wallet Import Format)", "Private Key")
 	fmt.Println(strings.Repeat("-", 171))
 	for i := 0; i < *number; i++ {
-		key, err := km.GetKey(PurposeBIP44, CoinTypeBTC, 0, 0, uint32(i))
+		var key *Key
+		if *short {
+			key, err = km.GetShortKey(PurposeBIP44, CoinTypeBTC, 0, uint32(i))
+		} else {
+			key, err = km.GetKey(PurposeBIP44, CoinTypeBTC, 0, 0, uint32(i))
+		}
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -499,7 +497,12 @@ func main() {
 	fmt.Printf("\n%-18s %-34s %24s %38s\n", "Path(BIP49)", "SegWit(nested)", "WIF(Wallet Import Format)", "Private key")
 	fmt.Println(strings.Repeat("-", 171))
 	for i := 0; i < *number; i++ {
-		key, err := km.GetKey(PurposeBIP49, CoinTypeBTC, 0, 0, uint32(i))
+		var key *Key
+		if *short {
+			key, err = km.GetShortKey(PurposeBIP49, CoinTypeBTC, 0, uint32(i))
+		} else {
+			key, err = km.GetKey(PurposeBIP49, CoinTypeBTC, 0, 0, uint32(i))
+		}
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -514,7 +517,12 @@ func main() {
 	fmt.Printf("\n%-18s %-42s %s %38s\n", "Path(BIP84)", "SegWit(bech32)", "WIF(Wallet Import Format)", "Private key")
 	fmt.Println(strings.Repeat("-", 179))
 	for i := 0; i < *number; i++ {
-		key, err := km.GetKey(PurposeBIP84, CoinTypeBTC, 0, 0, uint32(i))
+		var key *Key
+		if *short {
+			key, err = km.GetShortKey(PurposeBIP84, CoinTypeBTC, 0, uint32(i))
+		} else {
+			key, err = km.GetKey(PurposeBIP84, CoinTypeBTC, 0, 0, uint32(i))
+		}
 		if err != nil {
 			log.Fatal(err)
 		}
